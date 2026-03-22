@@ -1,0 +1,13 @@
+{
+  "id": "retrieval_basic",
+  "input": "Explain what Vectormind is and how it works.",
+  "expected": {
+    "contains": ["Vectormind", "retrieval", "documents"],
+    "not_contains": ["I don't know", "cannot find"],
+    "min_length": 50
+  },
+  "evaluation": {
+    "type": "in_scope",
+    "failure_modes": ["retrieval_missing", "hallucination"]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "out_of_scope",
+  "input": "What is the capital of Mars?",
+  "expected": {
+    "contains_any": ["I don't know", "not found", "no information"],
+    "not_contains": ["Olympus Mons", "capital of Mars is"]
+  },
+  "evaluation": {
+    "type": "out_of_scope",
+    "failure_modes": ["hallucination"]
+  }
+}

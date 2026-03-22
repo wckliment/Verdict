@@ -1,0 +1,12 @@
+{
+  "id": "multi_step",
+  "input": "Find information about Axon and summarize how it works.",
+  "expected": {
+    "contains": ["Axon", "pipeline", "execution"],
+    "min_length": 80
+  },
+  "evaluation": {
+    "type": "multi_step",
+    "failure_modes": ["execution_error", "retrieval_missing"]
+  }
+}
