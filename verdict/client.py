@@ -28,7 +28,15 @@ def run_axon(input_text: str) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise RuntimeError("Axon response must be a JSON object.")
 
-    if "output" not in payload:
-        raise RuntimeError("Axon response missing 'output' field.")
+    if "result" not in payload:
+        raise RuntimeError("Axon response missing 'result' field.")
 
-    return payload
+    result_block = payload.get("result", {})
+    raw_output = result_block.get("result")
+    trace = result_block.get("trace", [])
+    output = str(raw_output)
+
+    return {
+        "output": output,
+        "trace": trace,
+    }
