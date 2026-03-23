@@ -32,17 +32,29 @@ def run_all_tests() -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
 
     for test_case in test_cases:
-        trace: dict[str, Any] = {}
+        trace: list[dict[str, Any]] = []
+        documents: list[str] = []
 
         try:
             response = run_axon(test_case["input"])
+
+            # Output normalization
             output = response.get("output", "")
             if not isinstance(output, str):
                 output = str(output)
-            trace = response.get("trace", {})
-            if not isinstance(trace, dict):
-                trace = {}
+
+            # Trace normalization
+            trace = response.get("trace", [])
+            if not isinstance(trace, list):
+                trace = []
+
+            # 🔥 CRITICAL: propagate retrieved documents
+            documents = response.get("documents", [])
+            if not isinstance(documents, list):
+                documents = []
+
             execution_error = False
+
         except Exception as exc:
             output = str(exc)
             execution_error = True
@@ -63,6 +75,7 @@ def run_all_tests() -> list[dict[str, Any]]:
                 "input": test_case["input"],
                 "output": output,
                 "trace": trace,
+                "documents": documents,  # 🔥 THIS FIXES YOUR FAILURE
                 "passed": evaluation["passed"],
                 "score": evaluation["score"],
                 "failure_type": evaluation["failure_type"],
